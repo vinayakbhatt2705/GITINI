@@ -61,11 +61,45 @@ router.post("/add", upload.single("photo"), async (req, res) => {
 });
 
 // 📃 Get All Profiles
-router.get("/", async (req, res) => {
+/*router.get("/", async (req, res) => {
   try {
     console.log("inside profile mongo");
     const profiles = await Profile.find();
     res.json(profiles);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});*/
+
+
+router.get("/", async (req, res) => {
+  try {
+    console.log("Inside get after filter backend");
+    console.log(req.query.page + "  "+req.query.pageSize)
+    let page = parseInt(req.query.page) || 1;
+    let pageSize = parseInt(req.query.pageSize) || 20;
+    let skip = (page - 1) * pageSize;
+  
+    const filter = {};
+   if (req.query.profession) {
+  filter.profession = { $regex: req.query.profession, $options: "i" };
+}
+if (req.query.court_of_practice) {
+  filter.court_of_practice = { $regex: req.query.court_of_practice, $options: "i" };
+}
+    
+// 🟢 Debug logging
+    console.log("Incoming query params:", req.query);
+    console.log("MongoDB filter object:", filter);
+    console.log(`Pagination -> page: ${page}, pageSize: ${pageSize}, skip: ${skip}`);
+    const profiles = await Profile.find(filter)
+      .skip(skip) 
+      .limit(pageSize)
+      .lean();
+
+    const totalCount = await Profile.countDocuments(filter);
+
+    res.json({ profiles, totalCount });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
