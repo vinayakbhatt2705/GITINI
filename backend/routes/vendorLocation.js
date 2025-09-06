@@ -42,8 +42,9 @@ router.post('/add-location', async (req, res) => {
 // Search nearby vendors
 // Search nearby profiles (vendors)
 router.get('/near', async (req, res) => {
+   console.log('location call:'+ req.query.lng);
     console.log('location call:'+ req.query.lat);
-  const { lat, lng, radius } = req.query;
+  const { lat, lng, radius,profession } = req.query;
   
 
   try {
@@ -59,9 +60,15 @@ router.get('/near', async (req, res) => {
 
   const profileIds = locations.map(l => l.profile_id);
 
-const profiles = await Profile.find({
-  id: { $in: profileIds }
-});
+   // 3️⃣ Build profile query
+    let profileFilter = { id: { $in: profileIds } };
+    if (profession) {
+      console.log(profession);  
+      
+      profileFilter.profession = profession; // adjust if your field name is different
+    }
+
+const profiles = await Profile.find({profileFilter});
  console.log(profiles);
 
     res.json({
