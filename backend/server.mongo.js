@@ -86,7 +86,7 @@ console.log("Generated token:", token);
 
 
 
-/*app.use(express.static(path.join(__dirname, 'dist/frontend')));
+app.use(express.static(path.join(__dirname, 'dist/frontend')));
 
 // catch-all for Angular routes
 app.get('*', (req, res) => {
@@ -95,9 +95,9 @@ app.get('*', (req, res) => {
 
 app.listen(process.env.PORT, () => {
   console.log('Server running at' + process.env.MONGO_URI);
-});*/
+});
 /*Start server*/
 //const PORT = 3000;
-app.listen(PORT, () => {
+/*app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+});*/
