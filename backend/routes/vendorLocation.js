@@ -60,15 +60,13 @@ router.get('/near', async (req, res) => {
 
   const profileIds = locations.map(l => l.profile_id);
 
-   // 3️⃣ Build profile query
-    let profileFilter = { id: { $in: profileIds } };
-    if (profession) {
-      console.log(profession);  
-      
-      profileFilter.profession = profession; // adjust if your field name is different
-    }
+   let profileFilter = { id: { $in: profileIds } };
 
-const profiles = await Profile.find({profileFilter});
+if (profession) {
+  profileFilter.profession = { $regex: `^${profession}$`, $options: "i" };
+}
+
+const profiles = await Profile.find(profileFilter);
  console.log(profiles);
 
     res.json({
