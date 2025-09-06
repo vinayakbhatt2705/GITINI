@@ -11,6 +11,7 @@ const enquiryRoutes = require("./routes/enquiries.mongo");
 const videoRoutes = require("./routes/videos.mongo");
 const profilesadd = require("./routes/profiles.add.mongo.js");
 const testimonialsRoute = require('./routes/testimonials');
+const VendorVerification= require('./routes/VendorVerification.js');
 
 
 
@@ -52,6 +53,7 @@ app.use("/users", userRoutes);
 app.use("/enquiries", enquiryRoutes);
 app.use("/videos", videoRoutes);
 app.use("/profiles/add", profilesadd);
+app.use("/vendor-verification", VendorVerification);
 
 app.post("/login", async (req, res) => {
 
