@@ -10,6 +10,8 @@ const userRoutes = require("./routes/users.mongo.js");
 const enquiryRoutes = require("./routes/enquiries.mongo");
 const videoRoutes = require("./routes/videos.mongo");
 const profilesadd = require("./routes/profiles.add.mongo.js");
+const testimonialsRoute = require('./routes/testimonials');
+
 
 
 const app = express();
@@ -43,6 +45,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.error("❌ MongoDB connection error:", err));
 
 // ✅ Routes
+app.use('/testimonials', testimonialsRoute);
 app.use('/vendors-location', vendorLocationRoutes);
 app.use("/profiles", profileRoutes);
 app.use("/users", userRoutes);
