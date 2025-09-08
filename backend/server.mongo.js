@@ -12,7 +12,7 @@ const videoRoutes = require("./routes/videos.mongo");
 const profilesadd = require("./routes/profiles.add.mongo.js");
 const testimonialsRoute = require('./routes/testimonials');
 const VendorVerification= require('./routes/VendorVerification.js');
-
+const priorityRouter = require('./routes/priority.js');
 
 
 const app = express();
@@ -21,6 +21,7 @@ const PORT = process.env.PORT || 4500;
 const jwt = require("jsonwebtoken");
 const { authenticateJWT, authenticateRole } = require("./routes/auth.js");
 const User = require("./models/User.mongo.js"); // mongoose model for users
+
 
 const SECRET_KEY = "mysecret";
 
@@ -54,6 +55,7 @@ app.use("/enquiries", enquiryRoutes);
 app.use("/videos", videoRoutes);
 app.use("/profiles/add", profilesadd);
 app.use("/vendor-verification", VendorVerification);
+app.use("/priority", priorityRouter);   // mounts POST /priority/set-priority
 
 app.post("/login", async (req, res) => {
 
